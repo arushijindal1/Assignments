@@ -5,10 +5,10 @@ const Nexmo = require('nexmo');
 const socketio = require('socket.io');
 
 // Init Nexmo
-// const nexmo = new Nexmo({
-//   apiKey: 'YOURAPIKEY',
-//   apiSecret: 'YOURAPISECRET'
-// }, {debug: true});
+ const nexmo = new Nexmo({
+   apiKey: 'ca6546c7',
+   apiSecret: '6NwTM4lpdGYdFpmD'
+ }, {debug: true});
 
 // Init app
 const app = express();
@@ -30,27 +30,31 @@ app.get('/', (req, res) => {
 });
 
 // Catch form submit
-// app.post('/', (req, res) => {
-//   // res.send(req.body);
-//   // console.log(req.body);
-//   const number = req.body.number;
-//   const text = req.body.text;
+app.post('/', (req, res) => {
+ // res.send(req.body);
+ //console.log(req.body);
+   const number = req.body.number;
+   const text = req.body.text;
 
-//   nexmo.message.sendSms(
-//     'YOURVURTUALNUMBER', number, text, { type: 'unicode' },
-//     (err, responseData) => {
-//       if(err) {
-//         console.log(err);
-//       } else {
-//         console.dir(responseData);
-//         // Get data from response
-//         const data = {
-//           id: responseData.messages[0]['message-id'],
-//           number: responseData.messages[0]['to']
-//         }
+ nexmo.message.sendSms(
+    '917838480890', number, text, { type: 'unicode' },
+    (err, responseData) => {
+       if(err) {
+         console.log(err);
+       } else {
+         console.dir(responseData);
+       // Get data from response
+        const data = {
+          id: responseData.messages[0]['message-id'],
+         number: responseData.messages[0]['to']
+        }
 
-        // Emit to the client
-//         io.emit('smsStatus', data);
+       // Emit to the client
+        io.emit('smsStatus', data);
+    }}
+)
+})
+        
 //       }
 //     }
 //   );
@@ -63,10 +67,9 @@ const port = 3000;
 const server = app.listen(port, () => console.log(`Server started on port ${port}`));
 
 // Connect to socket.io
-// const io = socketio(server);
-// io.on('connection', (socket) => {
-//   console.log('Connected');
-//   io.on('disconnect', () => {
-//     console.log('Disconnected');
-//   })
-// })
+const io = socketio(server);
+io.on('connection', (socket) => {
+  console.log('Connected');
+  io.on('disconnect', () => {
+    console.log('Disconnected');
+  })})
